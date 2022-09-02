@@ -1,8 +1,69 @@
+//Player Logic
+const playerFactory = function(xoro) {
+    let val = xoro;
+    const get = () => val;
+    const set = (name) => val = name;
+    let up = false;
+
+    return {get, set, up}
+}
+
+//Form Logic
+const form = (()=>{
+    let playerSelection = "";
+    const x = document.getElementById('x');
+    const o = document.getElementById('o')
+    const form = document.getElementById('chooseform');
+    const start = document.getElementById('start');
+    const formhead = document.getElementById('formhead')
+
+    x.addEventListener('click', ()=> {
+        playerSelection = "X";
+        formhead.textContent = "You are " + playerSelection + "'s";
+    });
+    o.addEventListener('click', ()=> {
+        playerSelection = "O";
+        formhead.textContent = "You are " + playerSelection + "'s";
+    });
+
+    let player1 = playerFactory("none");
+    let player2 = playerFactory("AI");
+
+    start.addEventListener('click', () => {
+        if(!playerSelection) {
+            return alert("Please Select X or O by clicking on the icons!");
+        }
+        form.style.display = "none"
+        player1.set(playerSelection)
+        player1.up = true;
+        if(playerSelection == "O") {
+            player2.set("X");
+        } else {
+            player2.set("O");
+        }
+    });
+
+    return { player1, player2 }
+})();
 //Main game logic
 
 //Game Board object
-
 const gameBoard = (() => {
+    const tiles = document.querySelectorAll('.tile');
+
+    let playerMove = (p1, p2) => {
+
+        tiles.forEach(tile => {tile.addEventListener('click', (e) => {
+                    if(e.target.textContent != "") {
+                        return;
+                    }
+                    e.target.textContent = p1.get();
+                    p1.up = false;
+                    p2.up = true;
+                    console.log(p1.up)
+        })});  
+    }
+  
     let board = [
         ["", "", ""],
         ["", "", ""],
@@ -35,7 +96,7 @@ const gameBoard = (() => {
             return "diag Player: " + board[1][1] + " wins!"            
         }
         else {
-            return "It's a tie"
+            return false
         }
     }
 
@@ -54,56 +115,21 @@ const gameBoard = (() => {
             }
         }
     }
+    let boardFull = () => {
+        for (let i in board) {
+            for (let j in board[i]) {
+                if (board[i][j] == "") {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-    return {placeVal, checkWinner, printBoard, clearBoard}
+    return {placeVal, checkWinner, boardFull, printBoard, clearBoard, playerMove}
 })();
 
-gameBoard.placeVal("X", 0);
-gameBoard.placeVal("X", 1);
-gameBoard.placeVal("X", 2);
-gameBoard.printBoard();
-console.log(gameBoard.checkWinner());
-gameBoard.placeVal("O", 0);
-gameBoard.printBoard();
-console.log(gameBoard.checkWinner());
-gameBoard.clearBoard();
-gameBoard.printBoard();
+const firstPlayer = playerFactory("X")
+const secondPlayer = playerFactory("O")
 
-
-
-
-// // //factory function
-
-// const pickleBoy = () => {
-//     const sayPickle = () => console.log("pickle")
-//     return { sayPickle }
-// }
-
-// const objFactory = function (fruit) {
-//     let favFruit = "Favorite fruit is: " + fruit;
-//     const {sayPickle} = pickleBoy();
-//     const printFruits = () => console.log(favFruit)
-//     return { sayPickle, printFruits }
-// }
-
-// let bananaFact = objFactory("banana")
-// let appleFact = objFactory("apple")
-
-// bananaFact.printFruits();
-// appleFact.printFruits();
-// appleFact.sayPickle();
-
-// //IIFE
-
-// const blueberryBunch = (() => {
-//     let bunches = 6
-//     let add = () => bunches += 1;
-//     let get = function () {
-//         return bunches
-//     }
-//     return {add, get}
-// })()
-
-// console.log(blueberryBunch.get())
-// blueberryBunch.add()
-// console.log(blueberryBunch.get())
+gameBoard.playerMove(firstPlayer, secondPlayer);
