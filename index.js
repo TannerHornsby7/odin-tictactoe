@@ -22,10 +22,10 @@ const gameBoard = (() => {
         */
         for (let i = 0; i < 3; i++) {
             if(board[0][i] && board[0][i] == board[1][i] && board[1][i] == board[2][i]) { // cols
-                return "colPlayer: " + board[0][i] + " wins!"
+                return "col Player: " + board[0][i] + " wins!"
             }
             if(board[i][0] && board[i][0] == board[i][1] && board[i][1] == board[i][2]) { // rows
-                return "rowPlayer: " + board[i][0] + " wins!"
+                return "row Player: " + board[i][0] + " wins!"
             }
         }
         if(board[1][1] && board[1][1] == board[0][2] && board[0][2] == board[2][0]) {
@@ -33,6 +33,9 @@ const gameBoard = (() => {
         }
         if(board[1][1] && board[1][1] == board[0][0] && board[0][0] == board[2][2]) {
             return "diag Player: " + board[1][1] + " wins!"            
+        }
+        else {
+            return "It's a tie"
         }
     }
 
