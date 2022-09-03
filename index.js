@@ -1,54 +1,59 @@
 //Player Logic
 const playerFactory = function(xoro, name) {
-    up = false;
-    return {xoro, name, up}
+    let wins = 0;
+    const won = ()=>wins+=1;
+    const getWins =()=>wins;
+    return {xoro, name, won, getWins}
 }
 
 //Form Logic
 const form = (()=> {
-    let playerSelection = "";
-    const x = document.getElementById('x');
-    const o = document.getElementById('o')
+
     const form = document.getElementById('chooseform');
+    const overlay = document.getElementById('overlay');
     const start = document.getElementById('start');
-    const formhead = document.getElementById('formhead')
+    const formhead = document.getElementById('formhead');
 
-    let player1 = playerFactory("X", "john");
-
-    x.addEventListener('click', ()=> {
-        playerSelection = "X";
-        formhead.textContent = "You are " + playerSelection + "'s";
-    });
-    o.addEventListener('click', ()=> {
-        playerSelection = "O";
-        formhead.textContent = "You are " + playerSelection + "'s";
-        player1.xoro = "O"
-    });
-
-    let player2 = playerFactory("none","AI");
+    let playerX = playerFactory("X", "AI");
+    let playerO = playerFactory("O", "AI");     
 
     start.addEventListener('click', () => {
-        if(!playerSelection) {
-            return alert("Please Select X or O by clicking on the icons!");
+        let pxname = document.getElementById('pxname').value;
+        let poname = document.getElementById('poname').value;
+
+
+        console.log(pxname);
+
+        if(!pxname || !poname) {
+            return alert("Please Enter Both Player Names or Choose AI!");
         }
         //close the form window
         form.style.display = "none"
+        overlay.style.display = "none"
 
-        //set player 2 character type
-        if(playerSelection == "O") {
-            player2.xoro = "X";
-        } else {
-            player2.xoro = "O";
-        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        }          
+        //formatting names
+        pxname = capitalizeFirstLetter(pxname);
+        poname = capitalizeFirstLetter(poname)
+
+        //setting player names
+        playerX.name = pxname;
+        playerO.name = poname;
+        
     });
-    return { player1, player2 }
+
+ 
+    return { playerX, playerO }
 })();
 
 
 
 //Game Board object
 const gameBoard = (() => {
-    let whoisup = form.player1;
+    let whoisup = form.playerX;
     //initialize 2D gameboard array
     let board = [
         ["", "", ""],
@@ -59,8 +64,18 @@ const gameBoard = (() => {
     const tiles = document.querySelectorAll('.tile');
     const popup = document.createElement('div');
     const body = document.querySelector('.container');
+    const cta = document.getElementById('cta');
+    const reset = document.getElementById('reset');
+    const xwins = document.getElementById('xwins');
+    const owins = document.getElementById('owins')
+
+
 
     popup.classList.add("gameending");
+    popup.style.display = "block";
+
+    
+
 
     tiles.forEach(tile => {tile.addEventListener('click', (e) => {
         if(e.target.textContent != "") {
@@ -68,13 +83,18 @@ const gameBoard = (() => {
         }
         placeVal(whoisup.xoro, e.target.getAttribute('data-index'))
         if(checkWinner() != false) {
-            popup.style.display = "block";
-            popup.textContent = whoisup.name.toUpperCase() + " Wins!";
-            body.appendChild(popup);
-            console.log(body)
-            console.log("We got a winner!")
+            cta.textContent = whoisup.name + " Wins, Good Game!"
+            whoisup.won();
+            xwins.textContent = form.playerX.name + ": " + form.playerX.getWins();
+            owins.textContent = form.playerO.name + ": " + form.playerO.getWins();
+            clearBoard()
+        } else if (boardFull()) {
+            cta.textContent = "It's A Tie!"
+            clearBoard()
+        } else {
+            whoisup = whoisup.xoro == form.playerX.xoro ? form.playerO : form.playerX;
+            cta.textContent = "It is " + whoisup.name + "'s Turn"
         }
-        whoisup = whoisup.xoro == form.player1.xoro ? form.player2 : form.player1;
         updateUI();
     })});
 
@@ -132,7 +152,7 @@ const gameBoard = (() => {
                 }
             }
         }
-        return alert("Board Full");
+        return true;
     }
 
     updateUI = () => {
@@ -141,6 +161,14 @@ const gameBoard = (() => {
                 tiles[i].textContent = val
         }
     }
+
+
+    //on reset clear board
+    reset.addEventListener('click', () => {
+        clearBoard()
+        updateUI()
+    });
+
 
     return {placeVal, checkWinner, boardFull, printBoard, clearBoard, updateUI}
 })();

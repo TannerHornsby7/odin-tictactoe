@@ -24,3 +24,10 @@ input {
     outline: none;
     border: none;
 }
+
+input {
+    &:focus {
+        box-shadow: 1px 1px 1px darkslategrey;
+        transition: all .5s ease;
+    }
+}

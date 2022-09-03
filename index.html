@@ -9,32 +9,45 @@
     <title>Tic Tac Toe</title>
 </head>
 <body>
-    <div id="chooseform" class="chooseform">
-        <h2 id="formhead">Choose Your Player</h2>
-        <div class="xPlayer">
-            <img id="x" src="assets/x.png" alt="x image">
-        </div>
-        <div class="oPlayer">
-            <img id="o" src="assets/o.png" alt="o image">
-        </div>
-        <div class="buttons">
-            <button class="difficulty">Easy</button>
-            <button id="start" class="start">START</button>
+    <div id="overlay">
+        <div id="chooseform" class="chooseform">
+            <h2 id="formhead">Choose Your Player</h2>
+            <div class="xPlayer">
+                <label for="pxname">X Player</label>
+                <input title="X Player Name" type="text" name="pxname" id="pxname">
+                <img id="x" src="assets/x.png" alt="x image">
+            </div>
+            <div class="oPlayer">
+                <label for="poname">O Player</label>
+                <input title="O Player Name" type="text" name="poname" id="poname">
+                <img id="o" src="assets/o.png" alt="o image">
+            </div>
+            <div class="buttons">
+                <button class="difficulty">Easy</button>
+                <button id="start" class="start">START</button>
+            </div>
         </div>
     </div>
     <div class="container">
         <div class="header">Tic Tac Toe</div>
-        <h2 id="cta">Let's Play!</h2>
-        <div class="gameboard">
-            <div class="tile" data-index="0"></div>
-            <div class="tile" data-index="1"></div>
-            <div class="tile" data-index="2"></div>
-            <div class="tile" data-index="3"></div>
-            <div class="tile" data-index="4"></div>
-            <div class="tile" data-index="5"></div>
-            <div class="tile" data-index="6"></div>
-            <div class="tile" data-index="7"></div>
-            <div class="tile" data-index="8"></div>
+        <div class="top">
+            <h2 id="xwins"> </h2>
+            <h2 id="cta">Let's Play!</h2>
+            <h2 id="owins"> </h2>
+        </div>
+        <div class="gamebody">
+            <div class="gameboard">
+                <div class="tile" data-index="0"></div>
+                <div class="tile" data-index="1"></div>
+                <div class="tile" data-index="2"></div>
+                <div class="tile" data-index="3"></div>
+                <div class="tile" data-index="4"></div>
+                <div class="tile" data-index="5"></div>
+                <div class="tile" data-index="6"></div>
+                <div class="tile" data-index="7"></div>
+                <div class="tile" data-index="8"></div>
+            </div>
+            <button id="reset">RESET</button>
         </div>
         <div class="footer">Tanner Hornsby</div>
     </div>

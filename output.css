@@ -25,6 +25,11 @@ input {
   border: none;
 }
 
+input:focus {
+  box-shadow: 1px 1px 1px darkslategrey;
+  transition: all 0.5s ease;
+}
+
 .container {
   height: 100%;
   display: grid;
@@ -43,6 +48,15 @@ input {
   font-size: 30px;
   letter-spacing: 10px;
   padding: 1em;
+}
+
+#overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .chooseform {
@@ -72,20 +86,48 @@ input {
   justify-self: center;
 }
 .chooseform .xPlayer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-self: center;
   grid-area: 2/1/3/2;
-  justify-self: center;
+  align-items: center;
+  padding: 5px;
+  gap: 20px;
 }
-.chooseform .xPlayer:hover {
-  cursor: pointer;
+.chooseform .xPlayer label {
+  align-self: center;
+  font-size: 20px;
+}
+.chooseform .xPlayer input {
+  height: 50px;
+  width: 90%;
+}
+.chooseform .xPlayer img {
+  height: 80px;
+  width: 80px;
 }
 .chooseform .oPlayer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-self: center;
   grid-area: 2/2/3/3;
-  justify-self: center;
+  align-items: center;
+  padding: 5px;
+  gap: 20px;
 }
-.chooseform .oPlayer:hover {
-  cursor: pointer;
+.chooseform .oPlayer label {
+  align-self: center;
+  font-size: 20px;
+}
+.chooseform .oPlayer input {
+  height: 50px;
+  width: 90%;
+}
+.chooseform .oPlayer img {
+  height: 80px;
+  width: 80px;
 }
 .chooseform .buttons {
   grid-area: 3/1/4/3;
@@ -118,6 +160,18 @@ input {
   cursor: pointer;
 }
 
+.top {
+  display: flex;
+  justify-content: center;
+  gap: 5%;
+}
+
+.gamebody {
+  align-self: flex-start;
+  display: grid;
+  grid-template-rows: 7fr 1fr;
+}
+
 .gameboard {
   min-width: 300px;
   min-height: 300px;
@@ -139,23 +193,18 @@ input {
   align-items: center;
 }
 
-.gameending {
-  position: absolute;
-  display: none;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: auto;
+#reset {
+  justify-self: center;
+  width: 200px;
+  height: 75px;
+  background-color: black;
+  border: 2px solid black;
+  color: whitesmoke;
+}
+#reset:hover {
   background-color: whitesmoke;
   color: black;
-  border: 2px solid black;
-  border-radius: 15px;
-  min-width: 300px;
-  min-height: 300px;
-  width: 100%;
-  height: 100%;
-  font-size: 200px;
+  transition: all 1s ease;
 }
 
 /*# sourceMappingURL=output.css.map */
