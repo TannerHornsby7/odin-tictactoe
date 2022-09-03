@@ -1,21 +1,19 @@
 //Player Logic
-const playerFactory = function(xoro) {
-    let val = xoro;
-    const get = () => val;
-    const set = (name) => val = name;
-    let up = false;
-
-    return {get, set, up}
+const playerFactory = function(xoro, name) {
+    up = false;
+    return {xoro, name, up}
 }
 
 //Form Logic
-const form = (()=>{
+const form = (()=> {
     let playerSelection = "";
     const x = document.getElementById('x');
     const o = document.getElementById('o')
     const form = document.getElementById('chooseform');
     const start = document.getElementById('start');
     const formhead = document.getElementById('formhead')
+
+    let player1 = playerFactory("X", "john");
 
     x.addEventListener('click', ()=> {
         playerSelection = "X";
@@ -24,55 +22,62 @@ const form = (()=>{
     o.addEventListener('click', ()=> {
         playerSelection = "O";
         formhead.textContent = "You are " + playerSelection + "'s";
+        player1.xoro = "O"
     });
 
-    let player1 = playerFactory("none");
-    let player2 = playerFactory("AI");
+    let player2 = playerFactory("none","AI");
 
     start.addEventListener('click', () => {
         if(!playerSelection) {
             return alert("Please Select X or O by clicking on the icons!");
         }
+        //close the form window
         form.style.display = "none"
-        player1.set(playerSelection)
-        player1.up = true;
+
+        //set player 2 character type
         if(playerSelection == "O") {
-            player2.set("X");
+            player2.xoro = "X";
         } else {
-            player2.set("O");
+            player2.xoro = "O";
         }
     });
-
     return { player1, player2 }
 })();
-//Main game logic
+
+
 
 //Game Board object
 const gameBoard = (() => {
-    const tiles = document.querySelectorAll('.tile');
-
-    let playerMove = (p1, p2) => {
-
-        tiles.forEach(tile => {tile.addEventListener('click', (e) => {
-                    if(e.target.textContent != "") {
-                        return;
-                    }
-                    e.target.textContent = p1.get();
-                    p1.up = false;
-                    p2.up = true;
-                    console.log(p1.up)
-        })});  
-    }
-  
+    let whoisup = form.player1;
+    //initialize 2D gameboard array
     let board = [
         ["", "", ""],
         ["", "", ""],
         ["", "", ""]
     ]
-    let placeVal = (val, loc) => {
-        //val 0-8 left to right top to bottom
-        board[parseInt(Math.floor(loc / 3))][loc % 3] = val;
-    }
+
+    const tiles = document.querySelectorAll('.tile');
+    const popup = document.createElement('div');
+    const body = document.querySelector('.container');
+
+    popup.classList.add("gameending");
+
+    tiles.forEach(tile => {tile.addEventListener('click', (e) => {
+        if(e.target.textContent != "") {
+            return;
+        }
+        placeVal(whoisup.xoro, e.target.getAttribute('data-index'))
+        if(checkWinner() != false) {
+            popup.style.display = "block";
+            popup.textContent = whoisup.name.toUpperCase() + " Wins!";
+            body.appendChild(popup);
+            console.log(body)
+            console.log("We got a winner!")
+        }
+        whoisup = whoisup.xoro == form.player1.xoro ? form.player2 : form.player1;
+        updateUI();
+    })});
+
     let checkWinner = () => {
 
         /*
@@ -100,6 +105,10 @@ const gameBoard = (() => {
         }
     }
 
+    //place value into the gameBoard 2D array
+    let placeVal = (val, loc) => {
+        board[parseInt(Math.floor(loc / 3))][loc % 3] = val;
+    }
 
     let printBoard = () => {
         for (let i in board) {
@@ -123,13 +132,29 @@ const gameBoard = (() => {
                 }
             }
         }
-        return true;
+        return alert("Board Full");
     }
 
-    return {placeVal, checkWinner, boardFull, printBoard, clearBoard, playerMove}
+    updateUI = () => {
+            for(let i = 0; i < 9; i++) {
+                let val = board[parseInt(Math.floor(i / 3))][i % 3];
+                tiles[i].textContent = val
+        }
+    }
+
+    return {placeVal, checkWinner, boardFull, printBoard, clearBoard, updateUI}
 })();
 
-const firstPlayer = playerFactory("X")
-const secondPlayer = playerFactory("O")
 
-gameBoard.playerMove(firstPlayer, secondPlayer);
+gameBoard.printBoard()
+/*
+start with p1
+place value in the 2d array
+switch players
+place value in the 2d array
+
+
+*** I think that gameBoard should take (currentPlayer) as an arguemnt,
+using that to decide what to place in each of its spots
+
+*/
