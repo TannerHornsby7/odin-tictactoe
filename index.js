@@ -7,21 +7,32 @@ const playerFactory = function(xoro, name) {
 }
 
 //Initial Entry logic
-const entry =(()=>{
-    const ai = document.getElementById('aibutton');
-    const pvp = document.getElementById('pvpbutton')
+const modeSelectionForm =(()=>{
+    const modeform = document.getElementById('modeform')
+    const ai = document.getElementById('selectpvai');
+    const pvp = document.getElementById('selectpvp');
+    const aiform = document.getElementById('pvaiform');
+    const pvpform = document.getElementById('pvpform');
 
-    // ai.addEventListener('click', ()=>{
-    //     //if ai is selected, we must modify the form
-    // })
+    let gametype = null;
 
-    // pvp.addEventListener('click', ()=>{
-    //     //if pvp is selected, we simply go to the form
-    // })
+    ai.addEventListener('click', ()=>{
+        modeform.style.display = "none";
+        aiform.style.display = "grid";
+        gametype = "AI";
+    })
+
+    pvp.addEventListener('click', ()=>{
+        modeform.style.display = "none";
+        pvpform.style.display = "grid";
+        gametype = "PVP"
+    })
+
+    return { gametype }
 })()
 
 //PVP Form Logic
-const form = (()=> {
+const form = ((player1, player2)=> {
 
     const form = document.getElementById('pvpform');
     const overlay = document.getElementById('overlay');

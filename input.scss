@@ -152,7 +152,6 @@
 
 .modeform {
     @include formalicious;
-    display: none;
 }
 
 .pvaiform {
@@ -163,13 +162,12 @@
     button:first-child:hover {
         color: white
     }
-    // display: none;
+    display: none;
 }
 
 .pvpform {
     @include formalicious;
     display: none;
-
 }
 
 .top {
