@@ -6,10 +6,24 @@ const playerFactory = function(xoro, name) {
     return {xoro, name, won, getWins}
 }
 
-//Form Logic
+//Initial Entry logic
+const entry =(()=>{
+    const ai = document.getElementById('aibutton');
+    const pvp = document.getElementById('pvpbutton')
+
+    // ai.addEventListener('click', ()=>{
+    //     //if ai is selected, we must modify the form
+    // })
+
+    // pvp.addEventListener('click', ()=>{
+    //     //if pvp is selected, we simply go to the form
+    // })
+})()
+
+//PVP Form Logic
 const form = (()=> {
 
-    const form = document.getElementById('chooseform');
+    const form = document.getElementById('pvpform');
     const overlay = document.getElementById('overlay');
     const start = document.getElementById('start');
     const formhead = document.getElementById('formhead');

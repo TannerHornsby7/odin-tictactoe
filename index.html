@@ -10,7 +10,22 @@
 </head>
 <body>
     <div id="overlay">
-        <div id="chooseform" class="chooseform">
+        <div id="modeform" class="modeform">
+            <h2 id="formhead">Choose Your Game Mode</h2>
+            <div class="xPlayer">
+                <label for="pxname">Player vs. Player</label>
+                <img id="pvp" src="assets/pvp.png" alt="pvp image">
+            </div>
+            <div class="oPlayer">
+                <label for="poname">Player vs. AI</label>
+                <img id="pvai" src="assets/pvai.png" alt="pvai image">
+            </div>
+            <div class="buttons">
+                <button id="selectpvp">SELECT</button>
+                <button id="selectpvai">SELECT</button>
+            </div>
+        </div>
+        <div id="pvpform" class="pvpform">
             <h2 id="formhead">Choose Your Player</h2>
             <div class="xPlayer">
                 <label for="pxname">X Player</label>
@@ -23,7 +38,6 @@
                 <img id="o" src="assets/o.png" alt="o image">
             </div>
             <div class="buttons">
-                <button class="difficulty">Easy</button>
                 <button id="start" class="start">START</button>
             </div>
         </div>
