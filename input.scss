@@ -23,6 +23,22 @@
     }
 }
 
+@mixin sexybutton {
+    justify-self: center;
+    width: 90%;
+    height: 75px;
+    background-color: black;
+    border: 2px solid black;
+    color: whitesmoke;
+
+    &:hover {
+        background-color: whitesmoke;
+        cursor: pointer;
+        color: black;
+        transition: all 1s ease;
+    }
+}
+
 @mixin formalicious {
     //positioning
     position: absolute;
@@ -49,6 +65,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 4fr 2fr;
+
+    button {
+        @include sexybutton;
+    }
 
     h2 {
         margin-top: 5%;
@@ -99,21 +119,6 @@
     }
 }
 
-@mixin sexybutton {
-    justify-self: center;
-    width: 90%;
-    height: 75px;
-    background-color: black;
-    border: 2px solid black;
-    color: whitesmoke;
-
-    &:hover {
-        background-color: whitesmoke;
-        color: black;
-        transition: all 1s ease;
-    }
-}
-
 
 .container {
     height: 100%;
@@ -147,22 +152,24 @@
 
 .modeform {
     @include formalicious;
-    //display: none;
+    display: none;
+}
 
-    button {
-        @include sexybutton;
+.pvaiform {
+    @include formalicious;
+    img:hover {
+        cursor: pointer;
     }
+    button:first-child:hover {
+        color: white
+    }
+    // display: none;
 }
 
 .pvpform {
     @include formalicious;
     display: none;
 
-}
-
-.pvaiform {
-    @include formalicious;
-    display: none;
 }
 
 .top {

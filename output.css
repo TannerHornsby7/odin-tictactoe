@@ -80,6 +80,21 @@ input:focus {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 4fr 2fr;
+  display: none;
+}
+.modeform button {
+  justify-self: center;
+  width: 90%;
+  height: 75px;
+  background-color: black;
+  border: 2px solid black;
+  color: whitesmoke;
+}
+.modeform button:hover {
+  background-color: whitesmoke;
+  cursor: pointer;
+  color: black;
+  transition: all 1s ease;
 }
 .modeform h2 {
   margin-top: 5%;
@@ -158,7 +173,30 @@ input:focus {
   background-color: darkred;
   cursor: pointer;
 }
-.modeform button {
+
+.pvaiform {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 6em;
+  margin-bottom: auto;
+  background-color: whitesmoke;
+  color: black;
+  border: 2px solid black;
+  border-radius: 15px;
+  min-width: 300px;
+  min-height: 300px;
+  width: 70%;
+  max-width: 600px;
+  height: 50%;
+  max-height: 600px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 4fr 2fr;
+}
+.pvaiform button {
   justify-self: center;
   width: 90%;
   height: 75px;
@@ -166,10 +204,94 @@ input:focus {
   border: 2px solid black;
   color: whitesmoke;
 }
-.modeform button:hover {
+.pvaiform button:hover {
   background-color: whitesmoke;
+  cursor: pointer;
   color: black;
   transition: all 1s ease;
+}
+.pvaiform h2 {
+  margin-top: 5%;
+  letter-spacing: 2px;
+  grid-column: 1/3;
+  justify-self: center;
+}
+.pvaiform .xPlayer {
+  grid-area: 2/1/3/2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px;
+}
+.pvaiform .xPlayer label {
+  margin-top: 2%;
+  align-self: center;
+  font-size: 20px;
+}
+.pvaiform .xPlayer input {
+  height: 50px;
+  width: 90%;
+}
+.pvaiform .xPlayer img {
+  height: 80px;
+  width: 80px;
+}
+.pvaiform .oPlayer {
+  grid-area: 2/2/3/3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px;
+}
+.pvaiform .oPlayer label {
+  margin-top: 2%;
+  align-self: center;
+  font-size: 20px;
+}
+.pvaiform .oPlayer input {
+  height: 50px;
+  width: 90%;
+}
+.pvaiform .oPlayer img {
+  height: 80px;
+  width: 80px;
+}
+.pvaiform .buttons {
+  grid-area: 3/1/4/3;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 5%;
+  padding-bottom: 5%;
+}
+.pvaiform .buttons button {
+  width: 45%;
+  font-size: 200%;
+}
+.pvaiform .buttons .start {
+  background-color: black;
+  color: whitesmoke;
+  border: 2px solid black;
+}
+.pvaiform .buttons .start:hover {
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+  cursor: pointer;
+}
+.pvaiform .buttons .difficulty {
+  background-color: darkgreen;
+}
+.pvaiform .buttons .difficulty:hover {
+  background-color: darkred;
+  cursor: pointer;
+}
+.pvaiform img:hover {
+  cursor: pointer;
+}
+.pvaiform button:first-child:hover {
+  color: white;
 }
 
 .pvpform {
@@ -194,6 +316,20 @@ input:focus {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 4fr 2fr;
   display: none;
+}
+.pvpform button {
+  justify-self: center;
+  width: 90%;
+  height: 75px;
+  background-color: black;
+  border: 2px solid black;
+  color: whitesmoke;
+}
+.pvpform button:hover {
+  background-color: whitesmoke;
+  cursor: pointer;
+  color: black;
+  transition: all 1s ease;
 }
 .pvpform h2 {
   margin-top: 5%;
@@ -273,107 +409,6 @@ input:focus {
   cursor: pointer;
 }
 
-.pvaiform {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 6em;
-  margin-bottom: auto;
-  background-color: whitesmoke;
-  color: black;
-  border: 2px solid black;
-  border-radius: 15px;
-  min-width: 300px;
-  min-height: 300px;
-  width: 70%;
-  max-width: 600px;
-  height: 50%;
-  max-height: 600px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 4fr 2fr;
-  display: none;
-}
-.pvaiform h2 {
-  margin-top: 5%;
-  letter-spacing: 2px;
-  grid-column: 1/3;
-  justify-self: center;
-}
-.pvaiform .xPlayer {
-  grid-area: 2/1/3/2;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  padding: 5px;
-}
-.pvaiform .xPlayer label {
-  margin-top: 2%;
-  align-self: center;
-  font-size: 20px;
-}
-.pvaiform .xPlayer input {
-  height: 50px;
-  width: 90%;
-}
-.pvaiform .xPlayer img {
-  height: 80px;
-  width: 80px;
-}
-.pvaiform .oPlayer {
-  grid-area: 2/2/3/3;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  padding: 5px;
-}
-.pvaiform .oPlayer label {
-  margin-top: 2%;
-  align-self: center;
-  font-size: 20px;
-}
-.pvaiform .oPlayer input {
-  height: 50px;
-  width: 90%;
-}
-.pvaiform .oPlayer img {
-  height: 80px;
-  width: 80px;
-}
-.pvaiform .buttons {
-  grid-area: 3/1/4/3;
-  display: flex;
-  justify-content: space-evenly;
-  gap: 5%;
-  padding-bottom: 5%;
-}
-.pvaiform .buttons button {
-  width: 45%;
-  font-size: 200%;
-}
-.pvaiform .buttons .start {
-  background-color: black;
-  color: whitesmoke;
-  border: 2px solid black;
-}
-.pvaiform .buttons .start:hover {
-  background-color: white;
-  color: black;
-  border: 2px solid black;
-  cursor: pointer;
-}
-.pvaiform .buttons .difficulty {
-  background-color: darkgreen;
-}
-.pvaiform .buttons .difficulty:hover {
-  background-color: darkred;
-  cursor: pointer;
-}
-
 .top {
   display: flex;
   justify-content: center;
@@ -425,6 +460,7 @@ input:focus {
 }
 #reset:hover {
   background-color: whitesmoke;
+  cursor: pointer;
   color: black;
   transition: all 1s ease;
 }

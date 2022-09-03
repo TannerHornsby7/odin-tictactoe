@@ -65,16 +65,17 @@ const form = (()=> {
 
 
 
-//Game Board object
+// Game Board object
 const gameBoard = (() => {
     let whoisup = form.playerX;
-    //initialize 2D gameboard array
+    // Initialize 2D gameboard array
     let board = [
         ["", "", ""],
         ["", "", ""],
         ["", "", ""]
     ]
 
+    // Selecting DOM Elemets
     const tiles = document.querySelectorAll('.tile');
     const popup = document.createElement('div');
     const body = document.querySelector('.container');
