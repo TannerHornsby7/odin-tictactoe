@@ -465,4 +465,9 @@ input:focus {
   transition: all 1s ease;
 }
 
+.hard {
+  background-color: darkred !important;
+  color: whitesmoke;
+}
+
 /*# sourceMappingURL=output.css.map */

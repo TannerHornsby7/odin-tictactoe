@@ -1,4 +1,4 @@
-//Player Logic
+// Player Logic
 const playerFactory = function(xoro, name) {
     let wins = 0;
     const won = ()=>wins+=1;
@@ -8,7 +8,7 @@ const playerFactory = function(xoro, name) {
     return {xoro, name, won, getWins, ai, vsai}
 }
 
-//Initial Entry logic
+// Initial Entry logic
 const modeSelectionForm =(()=>{
     const modeform = document.getElementById('modeform')
     const ai = document.getElementById('selectpvai');
@@ -62,23 +62,28 @@ const form = (()=> {
     return { playerX, playerO, setPlayerNames, closeForm}
 })();
 
-//PVAI Form Logic inherit basic form logic
+// PVAI Form Logic inherit basic form logic
 const pvaiform = (()=> {
     let clicked = false;
+    let hard = false;
 
+    const difficulty = document.getElementById('difficulty')
     const pvaiform = document.getElementById('pvaiform');
     const overlay = document.getElementById('overlay');
     const start = document.getElementById('startpvai');
     const formhead = document.getElementById('formheadai');
     const o = document.getElementById('o');
     const x = document.getElementById('x');
+
     
     //adding click event listeners to set ai and player
     o.addEventListener('click', ()=>{
         form.playerX.name = "AI";
         form.playerO.name = "Player";
         formhead.textContent = "You are O's"
+        form.playerX.vsai = false;
         form.playerO.vsai = true;
+        form.playerO.ai = false;
         form.playerX.ai = true;
         clicked = true;
     })
@@ -86,7 +91,9 @@ const pvaiform = (()=> {
         form.playerX.name = "Player";
         form.playerO.name = "AI";
         formhead.textContent = "You are X's"
+        form.playerO.vsai = false;
         form.playerX.vsai = true;
+        form.playerX.ai = false;
         form.playerO.ai = true;
         clicked = true;
     })
@@ -103,6 +110,19 @@ const pvaiform = (()=> {
             return form.playerO;
         }
     }
+
+    //adding dificulty button click listener
+    difficulty.addEventListener('click', ()=>{
+        if(difficulty.textContent == "EASY") {
+            difficulty.textContent = "IMPOSSIBLE";
+            difficulty.classList.add("hard");
+            hard = true;
+        } else {
+            difficulty.textContent = "EASY"
+            difficulty.classList.remove("hard")
+            hard = false;
+        }
+    });
     
     function getAIEasyMove(board) {
         let x = getRandomInt(3)
@@ -115,26 +135,41 @@ const pvaiform = (()=> {
     }
 
     function getAIHardMove(board) {//minimax Nash Equilibrium
+        console.log("Hard")
     }
+
+    function easyAI() {
+        if(!hard) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    let getAIMove = getAIEasyMove //need to figure out how to use func as var
+
 
     start.addEventListener('click', () => {
         if(!clicked) {
             return alert("Please Select Your Icon (X or O)");
         }
-        //close the form window
+        // Close the form window
         pvaiform.style.display = "none";
         overlay.style.display = "none";
 
-        //setting player names
+        // Get AI Move Based on Difficulty
+        if(!easyAI()) {
+            getAIMove = getAIHardMove;
+        } else {
+            getAIMove = getAIEasyMove;
+        }
     }); 
 
     return { getAIMove, getAIPlayer }
 })();
 
-
-
-
-//PVP Form Logic inherit basic form logic
+// PVP Form Logic inherit basic form logic
 const pvpform = (()=> {
 
     const pvpform = document.getElementById('pvpform');
@@ -165,8 +200,6 @@ const pvpform = (()=> {
         form.setPlayerNames(pxname, poname);
     });
 })();
-
-
 
 // Game Board object
 const gameBoard = (() => {
@@ -213,8 +246,8 @@ const gameBoard = (() => {
                 cta.textContent = "It's A Tie!"
                 clearBoard();
             }
-            pvaiform.getAIEasyMove(board);
-            printBoard();
+            pvaiform.getAIMove(board);
+            updateUI();
         }
         if(checkWinner()  == whoisup.xoro) {
             cta.textContent = whoisup.name + " Wins, Good Game!"
@@ -314,17 +347,3 @@ const gameBoard = (() => {
 
     return {placeVal, checkWinner, boardFull, printBoard, clearBoard, updateUI}
 })();
-
-
-gameBoard.printBoard()
-/*
-start with p1
-place value in the 2d array
-switch players
-place value in the 2d array
-
-
-*** I think that gameBoard should take (currentPlayer) as an arguemnt,
-using that to decide what to place in each of its spots
-
-*/
