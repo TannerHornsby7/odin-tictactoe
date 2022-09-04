@@ -40,14 +40,12 @@ const form = (()=> {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }          
 
-    function formatNames(n1, n2) {
-        n1 = capitalizeFirstLetter(n1);
-        n2 = capitalizeFirstLetter(n2);
+    function formatName(name) {
+        return capitalizeFirstLetter(name);
     }
 
-    function closeForm() {
+    function closeForm(form) {
         const overlay = document.getElementById('overlay');
-        const formhead = document.getElementById('formhead');
         form.style.display = "none"
         overlay.style.display = "none" 
     }
@@ -55,9 +53,8 @@ const form = (()=> {
     const playerO = playerFactory("O", "Blank");
 
     function setPlayerNames(nx, no){
-        formatNames(nx, no);
-        playerX.name = nx;
-        playerO.name = no;    
+        playerX.name = formatName(nx);
+        playerO.name = formatName(no);    
     }
     return { playerX, playerO, setPlayerNames, closeForm}
 })();
@@ -111,7 +108,7 @@ const pvaiform = (()=> {
         }
     }
 
-    //adding dificulty button click listener
+    // adding dificulty button click listener
     difficulty.addEventListener('click', ()=>{
         if(difficulty.textContent == "EASY") {
             difficulty.textContent = "IMPOSSIBLE";
@@ -124,46 +121,31 @@ const pvaiform = (()=> {
         }
     });
     
-    function getAIEasyMove(board) {
-        let x = getRandomInt(3)
-        let y = getRandomInt(3)
-        while(board[x][y] != "") {
-            x = getRandomInt(3);
-            y = getRandomInt(3);
-        }
-        board[x][y] = getAIPlayer().xoro;
-    }
-
-    function getAIHardMove(board) {//minimax Nash Equilibrium
-        console.log("Hard")
-    }
-
-    function easyAI() {
-        if(!hard) {
-            return true;
+    function getAIMove(board) {
+        if(hard) {
+            // Implement Hard Mode
+            console.log("HARD")
         }
         else {
-            return false;
+            let x = getRandomInt(3)
+            let y = getRandomInt(3)
+            while(board[x][y] != "") {
+                x = getRandomInt(3);
+                y = getRandomInt(3);
+            }
+            board[x][y] = getAIPlayer().xoro;
         }
     }
 
-    let getAIMove = getAIEasyMove //need to figure out how to use func as var
-
-
     start.addEventListener('click', () => {
+
+        // make sure user select their icon type
         if(!clicked) {
             return alert("Please Select Your Icon (X or O)");
         }
-        // Close the form window
-        pvaiform.style.display = "none";
-        overlay.style.display = "none";
 
-        // Get AI Move Based on Difficulty
-        if(!easyAI()) {
-            getAIMove = getAIHardMove;
-        } else {
-            getAIMove = getAIEasyMove;
-        }
+        // close form and erase overlay
+        form.closeForm(pvaiform);
     }); 
 
     return { getAIMove, getAIPlayer }
@@ -173,30 +155,21 @@ const pvaiform = (()=> {
 const pvpform = (()=> {
 
     const pvpform = document.getElementById('pvpform');
-    const overlay = document.getElementById('overlay');
     const start = document.getElementById('startpvp');
-    const formhead = document.getElementById('formhead');   
 
     start.addEventListener('click', () => {
         let pxname = document.getElementById('pxname').value;
         let poname = document.getElementById('poname').value;
 
+        // check both names are entered
         if(!pxname || !poname) {
             return alert("Please Enter Both Player Names or Choose AI!");
         }
-        //close the form window
-        pvpform.style.display = "none";
-        overlay.style.display = "none";
 
+        // close window and erase overlay
+        form.closeForm(pvpform)
 
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-        }          
-        //formatting names
-        pxname = capitalizeFirstLetter(pxname);
-        poname = capitalizeFirstLetter(poname);
-
-        //setting player names
+        // setting player names
         form.setPlayerNames(pxname, poname);
     });
 })();
