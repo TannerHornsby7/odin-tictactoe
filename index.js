@@ -59,7 +59,7 @@ const form = (()=> {
     return { playerX, playerO, setPlayerNames, closeForm}
 })();
 
-// PVAI Form Logic inherit basic form logic
+// PVAI Mode Logic
 const pvaiform = (()=> {
     let clicked = false;
     let hard = false;
@@ -151,7 +151,7 @@ const pvaiform = (()=> {
     return { getAIMove, getAIPlayer }
 })();
 
-// PVP Form Logic inherit basic form logic
+// PVP Mode Logic
 const pvpform = (()=> {
 
     const pvpform = document.getElementById('pvpform');
@@ -177,6 +177,7 @@ const pvpform = (()=> {
 // Game Board object
 const gameBoard = (() => {
     let whoisup = form.playerX;
+
     // Initialize 2D gameboard array
     let board = [
         ["", "", ""],
@@ -186,74 +187,24 @@ const gameBoard = (() => {
 
     // Selecting DOM Elemets
     const tiles = document.querySelectorAll('.tile');
-    const popup = document.createElement('div');
-    const body = document.querySelector('.container');
     const cta = document.getElementById('cta');
     const reset = document.getElementById('reset');
     const xwins = document.getElementById('xwins');
-    const owins = document.getElementById('owins')
-
-
-
-    popup.classList.add("gameending");
-    popup.style.display = "block";
-
-    
+    const owins = document.getElementById('owins');
 
 
     tiles.forEach(tile => {tile.addEventListener('click', (e) => {
+        // prevent move collisions
         if(e.target.textContent != "") {
             return;
         }
 
-        placeVal(whoisup.xoro, e.target.getAttribute('data-index'))
-        if(whoisup.vsai) {
-            if(checkWinner() != false) {
-                cta.textContent = whoisup.name + " Wins, Good Game!"
-                whoisup.won();
-                xwins.textContent = form.playerX.name + ": " + form.playerX.getWins();
-                owins.textContent = form.playerO.name + ": " + form.playerO.getWins();
-                clearBoard()
-            }
-            else if (boardFull()) {
-                cta.textContent = "It's A Tie!"
-                clearBoard();
-            }
-            pvaiform.getAIMove(board);
-            updateUI();
-        }
-        if(checkWinner()  == whoisup.xoro) {
-            cta.textContent = whoisup.name + " Wins, Good Game!"
-            whoisup.won();
-            xwins.textContent = form.playerX.name + ": " + form.playerX.getWins();
-            owins.textContent = form.playerO.name + ": " + form.playerO.getWins();
-            clearBoard();
-        } else if (checkWinner() == pvaiform.getAIPlayer().xoro) {
-            cta.textContent = pvaiform.getAIPlayer().name + " Wins, Good Game!"
-            pvaiform.getAIPlayer().won();
-            xwins.textContent = form.playerX.name + ": " + form.playerX.getWins();
-            owins.textContent = form.playerO.name + ": " + form.playerO.getWins();
-            clearBoard();
-        } else if (boardFull()) {
-            cta.textContent = "It's A Tie!"
-            clearBoard();
-        } 
-        
-        if(!whoisup.vsai){
-            whoisup = whoisup.xoro == form.playerX.xoro ? form.playerO : form.playerX;
-            cta.textContent = "It is " + whoisup.name + "'s Turn"
-        }
+        placeMove(whoisup, e.target.getAttribute('data-index'))
         updateUI();
     })});
 
     let checkWinner = () => {
-
-        /*
-        8 win conditions:
-            1-6: straights
-            7-8: diagonals
-
-        */
+        // check straights
         for (let i = 0; i < 3; i++) {
             if(board[0][i] && board[0][i] == board[1][i] && board[1][i] == board[2][i]) { // cols
                 return board[0][i]
@@ -262,21 +213,62 @@ const gameBoard = (() => {
                 return board[i][0]
             }
         }
-        if(board[1][1] && board[1][1] == board[0][2] && board[0][2] == board[2][0]) {
-            return board[1][1]
-        }
-        if(board[1][1] && board[1][1] == board[0][0] && board[0][0] == board[2][2]) {
-            return board[1][1]            
-        }
+
+        // check diagonals
+        if( board[1][1] && board[1][1] == board[0][2] && board[0][2] == board[2][0] ||
+            board[1][1] && board[1][1] == board[0][0] && board[0][0] == board[2][2]) {
+                return board[1][1];;
+            }
         else {
             return false
         }
     }
 
-    //place value into the gameBoard 2D array
-    let placeVal = (val, loc) => {
+    // place value into array
+    const placeVal = (val, loc) => {
         board[parseInt(Math.floor(loc / 3))][loc % 3] = val;
     }
+
+    // check if a move ended the game
+    const gameOver = (player) => {
+        if(checkWinner()) {
+            cta.textContent = player.name + " Wins, Good Game!"
+            player.won();
+            xwins.textContent = form.playerX.name + ": " + form.playerX.getWins();
+            owins.textContent = form.playerO.name + ": " + form.playerO.getWins();
+            return true;
+        } else if (boardFull()) {
+            cta.textContent = "It's A Tie!"
+            tie = true;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // place a move and see if it ended the game, switching the next player
+    let placeMove = (player, loc) => {
+
+        placeVal(player.xoro, loc);
+        updateUI();
+
+        if(gameOver(player)) {
+            //display game over div with buttons to return to menu or replay
+            clearBoard();
+            return;
+        }
+        if(player.vsai) {
+            pvaiform.getAIMove(board);
+            updateUI();
+            if(gameOver(pvaiform.getAIPlayer())) {
+                return;
+            }
+        } else {
+            whoisup = whoisup.xoro == form.playerX.xoro ? form.playerO : form.playerX;
+            cta.textContent = "It is " + whoisup.name + "'s Turn"
+        }
+    }
+        
 
     let printBoard = () => {
         for (let i in board) {
@@ -285,6 +277,7 @@ const gameBoard = (() => {
             }
         }
     }
+
     let clearBoard = () => {
         for (let i in board) {
             for (let j in board[i]) {
@@ -292,6 +285,8 @@ const gameBoard = (() => {
             }
         }
     }
+
+    // check if the board is full
     let boardFull = () => {
         for (let i in board) {
             for (let j in board[i]) {
@@ -303,6 +298,7 @@ const gameBoard = (() => {
         return true;
     }
 
+    // update the DOM based on array elements
     updateUI = () => {
             for(let i = 0; i < 9; i++) {
                 let val = board[parseInt(Math.floor(i / 3))][i % 3];
@@ -310,13 +306,10 @@ const gameBoard = (() => {
         }
     }
 
-
-    //on reset clear board
     reset.addEventListener('click', () => {
         clearBoard()
         updateUI()
     });
-
 
     return {placeVal, checkWinner, boardFull, printBoard, clearBoard, updateUI}
 })();
