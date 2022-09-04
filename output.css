@@ -67,6 +67,7 @@ input:focus {
   margin-right: auto;
   margin-top: 6em;
   margin-bottom: auto;
+  text-align: center;
   background-color: whitesmoke;
   color: black;
   border: 2px solid black;
@@ -181,6 +182,7 @@ input:focus {
   margin-right: auto;
   margin-top: 6em;
   margin-bottom: auto;
+  text-align: center;
   background-color: whitesmoke;
   color: black;
   border: 2px solid black;
@@ -302,6 +304,7 @@ input:focus {
   margin-right: auto;
   margin-top: 6em;
   margin-bottom: auto;
+  text-align: center;
   background-color: whitesmoke;
   color: black;
   border: 2px solid black;
@@ -407,6 +410,125 @@ input:focus {
 .pvpform .buttons .difficulty:hover {
   background-color: darkred;
   cursor: pointer;
+}
+
+.winform {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 6em;
+  margin-bottom: auto;
+  text-align: center;
+  background-color: whitesmoke;
+  color: black;
+  border: 2px solid black;
+  border-radius: 15px;
+  min-width: 300px;
+  min-height: 300px;
+  width: 70%;
+  max-width: 600px;
+  height: 50%;
+  max-height: 600px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 4fr 2fr;
+  display: none;
+}
+.winform button {
+  justify-self: center;
+  width: 90%;
+  height: 75px;
+  background-color: black;
+  border: 2px solid black;
+  color: whitesmoke;
+}
+.winform button:hover {
+  background-color: whitesmoke;
+  cursor: pointer;
+  color: black;
+  transition: all 1s ease;
+}
+.winform h2 {
+  margin-top: 5%;
+  letter-spacing: 2px;
+  grid-column: 1/3;
+  justify-self: center;
+}
+.winform .xPlayer {
+  grid-area: 2/1/3/2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px;
+}
+.winform .xPlayer label {
+  margin-top: 2%;
+  align-self: center;
+  font-size: 20px;
+}
+.winform .xPlayer input {
+  height: 50px;
+  width: 90%;
+}
+.winform .xPlayer img {
+  height: 80px;
+  width: 80px;
+}
+.winform .oPlayer {
+  grid-area: 2/2/3/3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px;
+}
+.winform .oPlayer label {
+  margin-top: 2%;
+  align-self: center;
+  font-size: 20px;
+}
+.winform .oPlayer input {
+  height: 50px;
+  width: 90%;
+}
+.winform .oPlayer img {
+  height: 80px;
+  width: 80px;
+}
+.winform .buttons {
+  grid-area: 3/1/4/3;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 5%;
+  padding-bottom: 5%;
+}
+.winform .buttons button {
+  width: 45%;
+  font-size: 200%;
+}
+.winform .buttons .start {
+  background-color: black;
+  color: whitesmoke;
+  border: 2px solid black;
+}
+.winform .buttons .start:hover {
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+  cursor: pointer;
+}
+.winform .buttons .difficulty {
+  background-color: darkgreen;
+}
+.winform .buttons .difficulty:hover {
+  background-color: darkred;
+  cursor: pointer;
+}
+.winform img {
+  padding-top: 10%;
 }
 
 .top {

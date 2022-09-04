@@ -5,7 +5,13 @@ const playerFactory = function(xoro, name) {
     const getWins =()=>wins;
     let ai = false;
     let vsai = false;
-    return {xoro, name, won, getWins, ai, vsai}
+    function reset() {
+        this.name = "Blank"
+        this.wins = 0;
+        this.ai = false;
+        this.vsai = false;
+    }
+    return {xoro, name, won, getWins, ai, vsai, reset}
 }
 
 // Initial Entry logic
@@ -174,6 +180,33 @@ const pvpform = (()=> {
     });
 })();
 
+// Win Form Logic 
+const winform = (()=>{
+    const winform = document.getElementById('winform');
+    const btmbtn = document.getElementById('menu');
+    const pabtn = document.getElementById('playagain');
+    const modeform = document.getElementById('modeform');
+
+    btmbtn.addEventListener('click', ()=>{
+        modeform.style.display = "grid"
+        winform.style.display = "none";
+        form.playerO.reset();
+        form.playerX.reset();
+        console.log(form.playerO)
+    })
+
+    pabtn.addEventListener('click', ()=>{
+        form.closeForm(winform);
+    })
+
+    function openForm() {
+        winform.style.display = "grid";
+        overlay.style.display = "block"
+    }
+
+    return { openForm }
+})()
+
 // Game Board object
 const gameBoard = (() => {
     let whoisup = form.playerX;
@@ -188,6 +221,7 @@ const gameBoard = (() => {
     // Selecting DOM Elemets
     const tiles = document.querySelectorAll('.tile');
     const cta = document.getElementById('cta');
+    const ctaboard = document.getElementById('ctaboard')
     const reset = document.getElementById('reset');
     const xwins = document.getElementById('xwins');
     const owins = document.getElementById('owins');
@@ -253,7 +287,7 @@ const gameBoard = (() => {
         updateUI();
 
         if(gameOver(player)) {
-            //display game over div with buttons to return to menu or replay
+            winform.openForm();
             clearBoard();
             return;
         }
@@ -261,12 +295,13 @@ const gameBoard = (() => {
             pvaiform.getAIMove(board);
             updateUI();
             if(gameOver(pvaiform.getAIPlayer())) {
+                winform.openForm();
                 clearBoard();
                 return;
             }
         } else {
             whoisup = whoisup.xoro == form.playerX.xoro ? form.playerO : form.playerX;
-            cta.textContent = "It is " + whoisup.name + "'s Turn"
+            ctaboard.textContent = "It is " + whoisup.name + "'s Turn"
         }
     }
         
@@ -314,3 +349,10 @@ const gameBoard = (() => {
 
     return {placeVal, checkWinner, boardFull, printBoard, clearBoard, updateUI}
 })();
+
+
+/*
+To-Do:
+-figure out how to properly change object attributes so that wins reset
+-fix the icon selection stage for ai so that you can change from x's ot o's
+*/

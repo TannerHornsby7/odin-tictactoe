@@ -51,6 +51,7 @@
     margin-right: auto;
     margin-top: 6em;
     margin-bottom: auto;
+    text-align: center;
     //coloring
     background-color: whitesmoke;
     color: black;
@@ -171,6 +172,14 @@
 
 .pvpform {
     @include formalicious;
+    display: none;
+}
+
+.winform{
+    @include formalicious;
+    img {
+        padding-top: 10%;
+    }
     display: none;
 }
 
