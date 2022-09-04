@@ -8,7 +8,7 @@ and IIFE.
 
 ## SKILLS
 
-- Javascript (OOP: IIFE, Prototypical Inheritance, Factory Funcitons)
+- Javascript (OOP: IIFE Modules, Prototypical Inheritance, Factory Functions)
 - CSS
 - HTML
 - GIT

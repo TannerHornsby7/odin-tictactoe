@@ -114,6 +114,9 @@ const pvaiform = (()=> {
         board[x][y] = getAIPlayer().xoro;
     }
 
+    function getAIHardMove(board) {//minimax Nash Equilibrium
+    }
+
     start.addEventListener('click', () => {
         if(!clicked) {
             return alert("Please Select Your Icon (X or O)");
@@ -125,7 +128,7 @@ const pvaiform = (()=> {
         //setting player names
     }); 
 
-    return { getAIEasyMove, getAIPlayer }
+    return { getAIMove, getAIPlayer }
 })();
 
 
