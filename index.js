@@ -3,7 +3,9 @@ const playerFactory = function(xoro, name) {
     let wins = 0;
     const won = ()=>wins+=1;
     const getWins =()=>wins;
-    return {xoro, name, won, getWins}
+    let ai = false;
+    let vsai = false;
+    return {xoro, name, won, getWins, ai, vsai}
 }
 
 //Initial Entry logic
@@ -31,30 +33,122 @@ const modeSelectionForm =(()=>{
     return { gametype }
 })()
 
-//PVP Form Logic
-const form = ((player1, player2)=> {
+// Prototype Form Logic
+const form = (()=> {
 
-    const form = document.getElementById('pvpform');
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }          
+
+    function formatNames(n1, n2) {
+        n1 = capitalizeFirstLetter(n1);
+        n2 = capitalizeFirstLetter(n2);
+    }
+
+    function closeForm() {
+        const overlay = document.getElementById('overlay');
+        const formhead = document.getElementById('formhead');
+        form.style.display = "none"
+        overlay.style.display = "none" 
+    }
+    const playerX = playerFactory("X", "Blank");
+    const playerO = playerFactory("O", "Blank");
+
+    function setPlayerNames(nx, no){
+        formatNames(nx, no);
+        playerX.name = nx;
+        playerO.name = no;    
+    }
+    return { playerX, playerO, setPlayerNames, closeForm}
+})();
+
+//PVAI Form Logic inherit basic form logic
+const pvaiform = (()=> {
+    let clicked = false;
+
+    const pvaiform = document.getElementById('pvaiform');
     const overlay = document.getElementById('overlay');
-    const start = document.getElementById('start');
-    const formhead = document.getElementById('formhead');
+    const start = document.getElementById('startpvai');
+    const formhead = document.getElementById('formheadai');
+    const o = document.getElementById('o');
+    const x = document.getElementById('x');
+    
+    //adding click event listeners to set ai and player
+    o.addEventListener('click', ()=>{
+        form.playerX.name = "AI";
+        form.playerO.name = "Player";
+        formhead.textContent = "You are O's"
+        form.playerO.vsai = true;
+        form.playerX.ai = true;
+        clicked = true;
+    })
+    x.addEventListener('click', ()=>{
+        form.playerX.name = "Player";
+        form.playerO.name = "AI";
+        formhead.textContent = "You are X's"
+        form.playerX.vsai = true;
+        form.playerO.ai = true;
+        clicked = true;
+    })
 
-    let playerX = playerFactory("X", "AI");
-    let playerO = playerFactory("O", "AI");     
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    function getAIPlayer() {
+        if(form.playerX.ai) {
+            return form.playerX;
+        }
+        else {
+            return form.playerO;
+        }
+    }
+    
+    function getAIEasyMove(board) {
+        let x = getRandomInt(3)
+        let y = getRandomInt(3)
+        while(board[x][y] != "") {
+            x = getRandomInt(3);
+            y = getRandomInt(3);
+        }
+        board[x][y] = getAIPlayer().xoro;
+    }
+
+    start.addEventListener('click', () => {
+        if(!clicked) {
+            return alert("Please Select Your Icon (X or O)");
+        }
+        //close the form window
+        pvaiform.style.display = "none";
+        overlay.style.display = "none";
+
+        //setting player names
+    }); 
+
+    return { getAIEasyMove, getAIPlayer }
+})();
+
+
+
+
+//PVP Form Logic inherit basic form logic
+const pvpform = (()=> {
+
+    const pvpform = document.getElementById('pvpform');
+    const overlay = document.getElementById('overlay');
+    const start = document.getElementById('startpvp');
+    const formhead = document.getElementById('formhead');   
 
     start.addEventListener('click', () => {
         let pxname = document.getElementById('pxname').value;
         let poname = document.getElementById('poname').value;
 
-
-        console.log(pxname);
-
         if(!pxname || !poname) {
             return alert("Please Enter Both Player Names or Choose AI!");
         }
         //close the form window
-        form.style.display = "none"
-        overlay.style.display = "none"
+        pvpform.style.display = "none";
+        overlay.style.display = "none";
 
 
         function capitalizeFirstLetter(string) {
@@ -62,16 +156,11 @@ const form = ((player1, player2)=> {
         }          
         //formatting names
         pxname = capitalizeFirstLetter(pxname);
-        poname = capitalizeFirstLetter(poname)
+        poname = capitalizeFirstLetter(poname);
 
         //setting player names
-        playerX.name = pxname;
-        playerO.name = poname;
-        
+        form.setPlayerNames(pxname, poname);
     });
-
- 
-    return { playerX, playerO }
 })();
 
 
@@ -107,17 +196,41 @@ const gameBoard = (() => {
         if(e.target.textContent != "") {
             return;
         }
+
         placeVal(whoisup.xoro, e.target.getAttribute('data-index'))
-        if(checkWinner() != false) {
+        if(whoisup.vsai) {
+            if(checkWinner() != false) {
+                cta.textContent = whoisup.name + " Wins, Good Game!"
+                whoisup.won();
+                xwins.textContent = form.playerX.name + ": " + form.playerX.getWins();
+                owins.textContent = form.playerO.name + ": " + form.playerO.getWins();
+                clearBoard()
+            }
+            else if (boardFull()) {
+                cta.textContent = "It's A Tie!"
+                clearBoard();
+            }
+            pvaiform.getAIEasyMove(board);
+            printBoard();
+        }
+        if(checkWinner()  == whoisup.xoro) {
             cta.textContent = whoisup.name + " Wins, Good Game!"
             whoisup.won();
             xwins.textContent = form.playerX.name + ": " + form.playerX.getWins();
             owins.textContent = form.playerO.name + ": " + form.playerO.getWins();
-            clearBoard()
+            clearBoard();
+        } else if (checkWinner() == pvaiform.getAIPlayer().xoro) {
+            cta.textContent = pvaiform.getAIPlayer().name + " Wins, Good Game!"
+            pvaiform.getAIPlayer().won();
+            xwins.textContent = form.playerX.name + ": " + form.playerX.getWins();
+            owins.textContent = form.playerO.name + ": " + form.playerO.getWins();
+            clearBoard();
         } else if (boardFull()) {
             cta.textContent = "It's A Tie!"
-            clearBoard()
-        } else {
+            clearBoard();
+        } 
+        
+        if(!whoisup.vsai){
             whoisup = whoisup.xoro == form.playerX.xoro ? form.playerO : form.playerX;
             cta.textContent = "It is " + whoisup.name + "'s Turn"
         }
@@ -134,17 +247,17 @@ const gameBoard = (() => {
         */
         for (let i = 0; i < 3; i++) {
             if(board[0][i] && board[0][i] == board[1][i] && board[1][i] == board[2][i]) { // cols
-                return "col Player: " + board[0][i] + " wins!"
+                return board[0][i]
             }
             if(board[i][0] && board[i][0] == board[i][1] && board[i][1] == board[i][2]) { // rows
-                return "row Player: " + board[i][0] + " wins!"
+                return board[i][0]
             }
         }
         if(board[1][1] && board[1][1] == board[0][2] && board[0][2] == board[2][0]) {
-            return "diag Player: " + board[1][1] + " wins!"
+            return board[1][1]
         }
         if(board[1][1] && board[1][1] == board[0][0] && board[0][0] == board[2][2]) {
-            return "diag Player: " + board[1][1] + " wins!"            
+            return board[1][1]            
         }
         else {
             return false
