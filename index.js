@@ -261,6 +261,7 @@ const gameBoard = (() => {
             pvaiform.getAIMove(board);
             updateUI();
             if(gameOver(pvaiform.getAIPlayer())) {
+                clearBoard();
                 return;
             }
         } else {

@@ -1,10 +1,10 @@
 # Tic Tac Toe
 
-![tictactoe](assets/ttt.png)
+<img src="assets/ttt.png" alt="tictactoe" display="block" margin-left="auto" margin-right= "auto" width="50%">
 
 ## Description
 Tic Tac Toe Game made to practice OOP concepts like prototypical inheritance
-and IIFE. I used [minimax and the SPNE](https://en.wikipedia.org/wiki/Minimax) 
+and IIFE. I used [a recursive maximin algorithm](https://en.wikipedia.org/wiki/Minimax) 
 to create an unbeatable AI.
 
 ## Skills
