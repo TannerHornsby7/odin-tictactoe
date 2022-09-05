@@ -1,17 +1,28 @@
+'use strict';
+
 // Player Logic
-const playerFactory = function(xoro, name) {
+const playerFactory = function(xoro, n) {
     let wins = 0;
-    const won = ()=>wins+=1;
-    const getWins =()=>wins;
     let ai = false;
     let vsai = false;
+    let name = n;
+
+    const won = ()=>wins+=1;
+    const getWins =()=> wins;
+    const setWins =(x)=> wins = x;
+    const setAI =(t)=> ai = t;
+    const getAI =()=> ai;
+    const setVSAI =(t)=> vsai = t;
+    const getVSAI =()=> vsai;
+    const setName =(n)=> name = n;
+    const getName = ()=> name;
+
     function reset() {
-        this.name = "Blank"
-        this.wins = 0;
-        this.ai = false;
-        this.vsai = false;
+        this.setWins(0);
+        this.setAI(false);
+        this.setVSAI(false);
     }
-    return {xoro, name, won, getWins, ai, vsai, reset}
+    return {xoro, won, getWins, setWins, setAI, setVSAI, getName, setName, reset }
 }
 
 // Initial Entry logic
@@ -59,8 +70,8 @@ const form = (()=> {
     const playerO = playerFactory("O", "Blank");
 
     function setPlayerNames(nx, no){
-        playerX.name = formatName(nx);
-        playerO.name = formatName(no);    
+        playerX.setName(formatName(nx));
+        playerO.setName(formatName(no));    
     }
     return { playerX, playerO, setPlayerNames, closeForm}
 })();
@@ -81,23 +92,23 @@ const pvaiform = (()=> {
     
     //adding click event listeners to set ai and player
     o.addEventListener('click', ()=>{
-        form.playerX.name = "AI";
-        form.playerO.name = "Player";
+        form.playerX.setName("AI");
+        form.playerO.setName("Player");
         formhead.textContent = "You are O's"
-        form.playerX.vsai = false;
-        form.playerO.vsai = true;
-        form.playerO.ai = false;
-        form.playerX.ai = true;
+        form.playerX.setVSAI(false);
+        form.playerO.setVSAI(true);
+        form.playerO.setAI(false);
+        form.playerX.setAI(true);
         clicked = true;
     })
     x.addEventListener('click', ()=>{
-        form.playerX.name = "Player";
-        form.playerO.name = "AI";
+        form.playerX.setName("Player");
+        form.playerO.setName("AI");
         formhead.textContent = "You are X's"
-        form.playerO.vsai = false;
-        form.playerX.vsai = true;
-        form.playerX.ai = false;
-        form.playerO.ai = true;
+        form.playerX.setVSAI(true);
+        form.playerO.setVSAI(false);
+        form.playerO.setAI(true);
+        form.playerX.setAI(false);
         clicked = true;
     })
 
@@ -149,7 +160,7 @@ const pvaiform = (()=> {
         if(!clicked) {
             return alert("Please Select Your Icon (X or O)");
         }
-
+        gameBoard.ctaboard.textContent = "";
         // close form and erase overlay
         form.closeForm(pvaiform);
     }); 
@@ -266,10 +277,10 @@ const gameBoard = (() => {
     // check if a move ended the game
     const gameOver = (player) => {
         if(checkWinner()) {
-            cta.textContent = player.name + " Wins, Good Game!"
+            cta.textContent = player.getName() + " Wins, Good Game!"
             player.won();
-            xwins.textContent = form.playerX.name + ": " + form.playerX.getWins();
-            owins.textContent = form.playerO.name + ": " + form.playerO.getWins();
+            xwins.textContent = form.playerX.getName() + ": " + form.playerX.getWins();
+            owins.textContent = form.playerO.getName() + ": " + form.playerO.getWins();
             return true;
         } else if (boardFull()) {
             cta.textContent = "It's A Tie!"
@@ -301,7 +312,7 @@ const gameBoard = (() => {
             }
         } else {
             whoisup = whoisup.xoro == form.playerX.xoro ? form.playerO : form.playerX;
-            ctaboard.textContent = "It is " + whoisup.name + "'s Turn"
+            ctaboard.textContent = "It is " + whoisup.getName() + "'s Turn"
         }
     }
         
@@ -335,7 +346,7 @@ const gameBoard = (() => {
     }
 
     // update the DOM based on array elements
-    updateUI = () => {
+    const updateUI = () => {
             for(let i = 0; i < 9; i++) {
                 let val = board[parseInt(Math.floor(i / 3))][i % 3];
                 tiles[i].textContent = val
@@ -347,7 +358,7 @@ const gameBoard = (() => {
         updateUI()
     });
 
-    return {placeVal, checkWinner, boardFull, printBoard, clearBoard, updateUI}
+    return {placeVal, checkWinner, boardFull, printBoard, clearBoard, updateUI, ctaboard}
 })();
 
 

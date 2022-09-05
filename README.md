@@ -23,3 +23,5 @@ smart object organization. Next project I want to draw out an object diagram
 and map out how each of my objects should interact. I am still a bit confused
 on how IIFE's can call other IIFE values that exist below them in the
 main file.
+
+We use getter and setters as object properties in js are naturally read only.
