@@ -33,6 +33,9 @@
     background-color: black;
     border: 2px solid black;
     color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:hover {
         background-color: whitesmoke;
@@ -233,7 +236,7 @@
 }
 
 // Hard Button Formatting
-.hard {
+button .hard {
     background-color: darkred !important;
     color: whitesmoke;
 }

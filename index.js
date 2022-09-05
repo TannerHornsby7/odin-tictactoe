@@ -117,7 +117,7 @@ const pvaiform = (()=> {
     // adding dificulty button click listener
     difficulty.addEventListener('click', ()=>{
         if(difficulty.textContent == "EASY") {
-            difficulty.textContent = "IMPOSSIBLE";
+            difficulty.textContent = "HARD";
             difficulty.classList.add("hard");
             hard = true;
         } else {

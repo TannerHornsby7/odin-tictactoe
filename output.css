@@ -89,6 +89,9 @@ input:focus {
   background-color: black;
   border: 2px solid black;
   color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .modeform button:hover {
   background-color: whitesmoke;
@@ -205,6 +208,9 @@ input:focus {
   background-color: black;
   border: 2px solid black;
   color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .pvaiform button:hover {
   background-color: whitesmoke;
@@ -327,6 +333,9 @@ input:focus {
   background-color: black;
   border: 2px solid black;
   color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .pvpform button:hover {
   background-color: whitesmoke;
@@ -443,6 +452,9 @@ input:focus {
   background-color: black;
   border: 2px solid black;
   color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .winform button:hover {
   background-color: whitesmoke;
@@ -578,6 +590,9 @@ input:focus {
   background-color: black;
   border: 2px solid black;
   color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 300px;
 }
 #reset:hover {
@@ -587,7 +602,7 @@ input:focus {
   transition: all 1s ease;
 }
 
-.hard {
+button .hard {
   background-color: darkred !important;
   color: whitesmoke;
 }
