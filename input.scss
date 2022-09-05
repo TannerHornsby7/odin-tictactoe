@@ -119,10 +119,6 @@
         .difficulty {
             background-color: darkgreen;
         }
-        .difficulty:hover {
-            background-color: darkred;
-            cursor: pointer;
-        }
     }
 }
 
@@ -236,7 +232,7 @@
 }
 
 // Hard Button Formatting
-button .hard {
+.hard {
     background-color: darkred !important;
     color: whitesmoke;
 }

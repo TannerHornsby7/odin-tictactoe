@@ -172,10 +172,6 @@ input:focus {
 .modeform .buttons .difficulty {
   background-color: darkgreen;
 }
-.modeform .buttons .difficulty:hover {
-  background-color: darkred;
-  cursor: pointer;
-}
 
 .pvaiform {
   position: absolute;
@@ -290,10 +286,6 @@ input:focus {
 }
 .pvaiform .buttons .difficulty {
   background-color: darkgreen;
-}
-.pvaiform .buttons .difficulty:hover {
-  background-color: darkred;
-  cursor: pointer;
 }
 .pvaiform img:hover {
   cursor: pointer;
@@ -416,10 +408,6 @@ input:focus {
 .pvpform .buttons .difficulty {
   background-color: darkgreen;
 }
-.pvpform .buttons .difficulty:hover {
-  background-color: darkred;
-  cursor: pointer;
-}
 
 .winform {
   position: absolute;
@@ -535,10 +523,6 @@ input:focus {
 .winform .buttons .difficulty {
   background-color: darkgreen;
 }
-.winform .buttons .difficulty:hover {
-  background-color: darkred;
-  cursor: pointer;
-}
 .winform img {
   padding-top: 10%;
 }
@@ -602,7 +586,7 @@ input:focus {
   transition: all 1s ease;
 }
 
-button .hard {
+.hard {
   background-color: darkred !important;
   color: whitesmoke;
 }
