@@ -22,7 +22,7 @@ const playerFactory = function(xoro, n) {
         this.setAI(false);
         this.setVSAI(false);
     }
-    return {xoro, won, getWins, setWins, setAI, setVSAI, getName, setName, reset }
+    return {xoro, won, getWins, setWins, getAI, setAI, getVSAI, setVSAI, getName, setName, reset }
 }
 
 // Initial Entry logic
@@ -117,7 +117,7 @@ const pvaiform = (()=> {
     }
 
     function getAIPlayer() {
-        if(form.playerX.ai) {
+        if(form.playerX.getAI()) {
             return form.playerX;
         }
         else {
@@ -154,18 +154,22 @@ const pvaiform = (()=> {
         }
     }
 
-    start.addEventListener('click', () => {
+   start.addEventListener('click', () => {
 
         // make sure user select their icon type
         if(!clicked) {
             return alert("Please Select Your Icon (X or O)");
         }
+
         gameBoard.ctaboard.textContent = "";
+
         // close form and erase overlay
         form.closeForm(pvaiform);
     }); 
 
-    return { getAIMove, getAIPlayer }
+
+
+    return { getAIMove, getAIPlayer, clicked }
 })();
 
 // PVP Mode Logic
@@ -220,8 +224,12 @@ const winform = (()=>{
 
 // Game Board object
 const gameBoard = (() => {
-    let whoisup = form.playerX;
-
+    var whoisup = form.playerX;
+    const pvaistart = document.getElementById('startpvai');
+    pvaistart.addEventListener('click', ()=>{
+        whoisup = form.playerX.getAI() ? form.playerO : form.playerX;
+        console.log("pvaistartclicked")
+    })
     // Initialize 2D gameboard array
     let board = [
         ["", "", ""],
@@ -302,7 +310,7 @@ const gameBoard = (() => {
             clearBoard();
             return;
         }
-        if(player.vsai) {
+        if(player.getVSAI()) {
             pvaiform.getAIMove(board);
             updateUI();
             if(gameOver(pvaiform.getAIPlayer())) {
@@ -360,10 +368,3 @@ const gameBoard = (() => {
 
     return {placeVal, checkWinner, boardFull, printBoard, clearBoard, updateUI, ctaboard}
 })();
-
-
-/*
-To-Do:
--figure out how to properly change object attributes so that wins reset
--fix the icon selection stage for ai so that you can change from x's ot o's
-*/
