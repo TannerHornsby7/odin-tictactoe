@@ -83,7 +83,6 @@ const pvaiform = (()=> {
 
     const difficulty = document.getElementById('difficulty')
     const pvaiform = document.getElementById('pvaiform');
-    const overlay = document.getElementById('overlay');
     const start = document.getElementById('startpvai');
     const formhead = document.getElementById('formheadai');
     const o = document.getElementById('o');
@@ -140,12 +139,16 @@ const pvaiform = (()=> {
     
     function getAIMove(board) {
         if(hard) {
-            // Implement Hard Mode
-            console.log("HARD")
-        }
-        else {
-            let x = getRandomInt(3)
-            let y = getRandomInt(3)
+            let x = getRandomInt(3);
+            let y = getRandomInt(3);
+            while(board[x][y] != "") {
+                x = getRandomInt(3);
+                y = getRandomInt(3);
+            }
+            board[x][y] = getAIPlayer().xoro;
+        } else {
+            let x = getRandomInt(3);
+            let y = getRandomInt(3);
             while(board[x][y] != "") {
                 x = getRandomInt(3);
                 y = getRandomInt(3);
@@ -207,7 +210,6 @@ const winform = (()=>{
         winform.style.display = "none";
         form.playerO.reset();
         form.playerX.reset();
-        console.log(form.playerO)
     })
 
     pabtn.addEventListener('click', ()=>{
@@ -228,7 +230,6 @@ const gameBoard = (() => {
     const pvaistart = document.getElementById('startpvai');
     pvaistart.addEventListener('click', ()=>{
         whoisup = form.playerX.getAI() ? form.playerO : form.playerX;
-        console.log("pvaistartclicked")
     })
     // Initialize 2D gameboard array
     let board = [
@@ -292,7 +293,6 @@ const gameBoard = (() => {
             return true;
         } else if (boardFull()) {
             cta.textContent = "It's A Tie!"
-            tie = true;
             return true;
         } else {
             return false;
@@ -323,7 +323,6 @@ const gameBoard = (() => {
             ctaboard.textContent = "It is " + whoisup.getName() + "'s Turn"
         }
     }
-        
 
     let printBoard = () => {
         for (let i in board) {
