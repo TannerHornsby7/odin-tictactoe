@@ -547,6 +547,7 @@ input:focus {
   justify-self: center;
   align-self: flex-start;
   background-color: lightslategray;
+  border: 2px solid transparent;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
@@ -564,6 +565,7 @@ input:focus {
 }
 .gameboard .tile:hover {
   background-color: whitesmoke;
+  box-shadow: 1px 1px 1px darkslategrey;
   cursor: pointer;
 }
 
