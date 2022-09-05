@@ -164,10 +164,11 @@ const pvaiform = (()=> {
             return alert("Please Select Your Icon (X or O)");
         }
 
-        gameBoard.ctaboard.textContent = "";
-
         // close form and erase overlay
         form.closeForm(pvaiform);
+
+        clicked = false;
+        formhead.textContent = "Choose Your Player";
     }); 
 
 
@@ -308,6 +309,7 @@ const gameBoard = (() => {
         if(gameOver(player)) {
             winform.openForm();
             clearBoard();
+            ctaboard.textContent = "";
             return;
         }
         if(player.getVSAI()) {
