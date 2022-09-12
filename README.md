@@ -2,6 +2,10 @@
 
 <img src="assets/ttt.png" alt="tictactoe" display="block" margin-left="auto" margin-right= "auto" width="50%">
 
+## Live Demo
+
+[here](https://tannerhornsby7.github.io/odin-tictactoe/)
+
 ## Description
 Tic Tac Toe Game made to practice OOP concepts like prototypical inheritance
 and IIFE. I used [a recursive maximin algorithm](https://en.wikipedia.org/wiki/Minimax) 
